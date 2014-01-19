@@ -1,3 +1,40 @@
+body{
+margin:0;
+padding:0;
+}
+h1{
+  margin: 100px 0 100px 0;
+  width: 100%;
+  text-align: center;
+  font-family: 'Lustria', serif;
+  font-size: 56px;
+  color: #333333;
+  text-transform:uppercase;
+}
+
+ul{
+  margin: 0;
+  list-style-type: none;
+    white-space: nowrap;
+}
+
+li{
+  margin: 0;
+  float:left;
+  width: 33%;
+  text-align: left;
+  white-space: nowrap;
+}
+
+#login_container{
+  width: 100%;
+  margin: 100px 0 100px 0;
+}
+
+#login_container a{
+  border: 1px solid green;
+}
+
 .fbloginsprite{
     display: block;
 	width: 260px;
@@ -9,4 +46,67 @@
 
 .fbloginsprite:hover{
 	background-position: right;
+}
+
+.steps{
+  height: 100%;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-transform:uppercase;
+  font-size: 26px;
+  font-weight: lighter;
+  color: #333333;
+  float:left;
+  vertical-align: middle;
+  }
+
+.number{
+  font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+  font-size: 62px;
+  color: #aaaaaa;
+  font-weight: bolder;
+  float:left;
+  vertical-align: middle;
+}
+
+.clear{
+   clear:both;
+}
+#steps_container{
+  text-align: center;
+  width: 100%;
+  height: auto;
+  float: left;
+}
+
+#top_bar {
+  top:0;
+  margin: 0;
+  padding: 0;
+  height: 50px;
+  width: 100%;
+  background-color: #2D3C49;
+}
+
+#top_bar_title{
+  margin: 0;
+  padding: 10px 0 0 50px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-transform:uppercase;
+  font-size: 26px;
+  font-weight: lighter;
+  text-align: left;
+  vertical-align: middle;
+  color: #ffffff;
+    float: left;
+    width: 50%;
+}
+
+.top_bar_item{
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: lighter;
+  vertical-align: middle;
+  color: #ffffff;
+    padding: 15px 20px 0 50px;
+    float: left;
 }

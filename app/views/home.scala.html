@@ -2,12 +2,24 @@
 
 @main(title) {
 
-	@content
+	<!-- h1>@content</h1-->
 
-    <a class="selected" href="@routes.Application.index">Home</a>
+<div id="steps_container">
+<ul>
+<li><div class="number">1.</div><div class="steps">discover where<br/>to escape</div></li>
+<li><div class="number">2.</div><div class="steps">invite people<br/>who matter</div></li>
+<li><div class="number">3.</div><div class="steps">organize a perfect<br/>trip together</div></li>
+</div>
+
+<div class="clear"></div>
+</ul>
+    <!--a class="selected" href="@routes.Application.index">Home</a-->
 	@if(user.isDefined) {
 	  <a class="selected" href="@routes.Application.logout">Logout</a>
     } else {
+        <div id="login_container"><center>
       <a class="unselected fbloginsprite" href="facebook/login"><div class="fbloginsprite"></div></a>
+        </center>
+        </div>
 }
 }
