@@ -1,0 +1,12 @@
+.fbloginsprite{
+    display: block;
+	width: 260px;
+	height: 64px;
+	background-image: url(/assets/images/fbbutton.png);
+	background-position: left;
+	text-indent: -9999px;
+}
+
+.fbloginsprite:hover{
+	background-position: right;
+}
