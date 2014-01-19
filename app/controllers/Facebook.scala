@@ -17,12 +17,15 @@ object Facebook extends Controller {
   val appId = config.getString("facebook.app_id").get
   val appSecret = config.getString("facebook.app_secret").get
   val baseRedirectUrl = config.getString("facebook.redirect_url").get
+  val scope = config.getString("facebook.scope").get
 
   def redirectUrl(extension: Call) = {
     val withParameters = extension.toString
     val indexQuestionmark = withParameters.indexOf('?')
     val extensionString = withParameters.substring(0, indexQuestionmark)
-    "https://www.facebook.com/dialog/oauth?client_id=" + appId + "&redirect_uri=" + baseRedirectUrl + extensionString + "&scope=email"
+    "https://www.facebook.com/dialog/oauth?client_id=" + appId +
+      "&redirect_uri=" + baseRedirectUrl + extensionString +
+      "&scope=" + scope
   }
 
   val loginRedirect = redirectUrl(controllers.routes.Facebook.login2(""))
