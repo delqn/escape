@@ -16,6 +16,7 @@
     <!--a class="selected" href="@routes.Application.index">Home</a-->
 	@if(user.isDefined) {
 	  <a class="selected" href="@routes.Application.logout">Logout</a>
+	  <a class="selected" href="@routes.Facebook.listFacebookFriends">List Friends</a>
     } else {
         <div id="login_container"><center>
       <a class="unselected fbloginsprite" href="facebook/login"><div class="fbloginsprite"></div></a>
