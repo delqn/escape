@@ -1,7 +1,10 @@
-@(message: String)
+@(user: Option[User], message: String)
 
-@main("Welcome to Play") {
+@home(user, "Escape") {
 
-    @play20.welcome(message)
+	<p>@message</p>
 
+	@if(user.isDefined) {
+	<a class="unselected" href="@routes.Facebook.listFacebookFriends">Friends</a>
+	}
 }

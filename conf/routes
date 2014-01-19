@@ -1,9 +1,21 @@
 # Routes
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
-
+#TODO(delyan) - clean up this mess
 # Home page
-GET     /                           controllers.Application.index
+
+GET     /          controllers.Application.index
+GET     /login     controllers.Application.login
+GET     /login     controllers.Facebook.login
+GET     /logout    controllers.Application.logout
+
+GET     /facebook/login             controllers.Facebook.login
+GET     /facebook/login/            controllers.Facebook.loginWithParams(ref: Option[String], code: Option[String])
+#TODO(delyan):POST    /facebook/canvas?*trash     controllers.Facebook.canvasTrash(trash: Option[String])
+POST    /facebook/canvas            controllers.Facebook.canvas
+GET     /facebook/login2            controllers.Facebook.login2(code: String)
+GET     /facebook/listFriends       controllers.Facebook.listFacebookFriends
+GET     /facebook/listFriends2      controllers.Facebook.listFacebookFriends2(code: String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
