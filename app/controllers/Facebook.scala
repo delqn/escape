@@ -77,15 +77,13 @@ object Facebook extends Controller {
     val accessTokenBody = Await.result(resultFuture, 5 seconds)
     val regex = new Regex("access_token=(.*)&expires=(.*)")
     accessTokenBody match {
-      case regex(accessToken, expires) => {
-        accessTokenHandler(accessToken, expires)
-      }
+      case regex(accessToken, expires) => accessTokenHandler(accessToken, expires)
     }
   }
 
   def getOrCreateUser(fbUser: com.restfb.types.User): User = {
-    val facebookUsername = fbUser.getUsername()
-    val user = User(fbUser.getEmail);
+    val facebookUsername = fbUser.getUsername
+    val user = User(fbUser.getEmail)
     if (user == null) {
       createFacebookUser(fbUser.getEmail, facebookUsername, Some(fbUser.getId.toLong), fbUser.getName);
     } else {
