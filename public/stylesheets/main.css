@@ -106,8 +106,8 @@ h1{
   font-weight: lighter;
   vertical-align: middle;
   color: #ffffff;
-    padding: 15px 20px 0 50px;
-    float: left;
+  padding: 15px 20px 0 50px;
+  float: left;
 }
 
 #main_container{
@@ -156,4 +156,21 @@ width: auto;
   border-radius: 99em;
   border: 5px solid #eee;
   box-shadow: 0 3px 2px rgba(0, 0, 0, 0.3);
+}
+
+.person_name {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: lighter;
+}
+
+#menu{
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: bolder;
+  background-color: #eee;
+}
+
+#menu a{
+  padding 0 10px 0 10px;
 }

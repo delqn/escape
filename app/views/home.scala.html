@@ -1,25 +1,26 @@
 @(user: Option[User], title: String = "Escape")(content: Html)
 
 @main(title) {
-
-<div id="steps_container">
-<ul>
-<li><div class="number">1.</div><div class="steps">discover where<br/>to escape</div></li>
-<li><div class="number">2.</div><div class="steps">invite people<br/>who matter</div></li>
-<li><div class="number">3.</div><div class="steps">organize a perfect<br/>trip together</div></li>
-</div>
-
-<div class="clear"></div>
-</ul>
     <!--a class="selected" href="@routes.Application.index">Home</a-->
 	@if(user.isDefined) {
+        <div id="menu">
 	  <a class="selected" href="@routes.Application.logout">Logout</a>
 	  <a class="selected" href="@routes.Facebook.listFacebookFriends">List Friends</a>
-    } else {
-        <div id="login_container"><center>
-      <a class="unselected fbloginsprite" href="facebook/login"><div class="fbloginsprite"></div></a>
-        </center>
         </div>
-}
-<p>@content</p>
+    } else {
+      <div id="steps_container">
+          <ul>
+              <li><div class="number">1.</div><div class="steps">discover where<br/>to escape</div></li>
+              <li><div class="number">2.</div><div class="steps">invite people<br/>who matter</div></li>
+              <li><div class="number">3.</div><div class="steps">organize a perfect<br/>trip together</div></li>
+          </ul>
+          <div class="clear"></div>
+      </div>
+      <div id="login_container">
+          <center>
+              <a class="unselected fbloginsprite" href="facebook/login"><div class="fbloginsprite"></div></a>
+          </center>
+      </div>
+    }
+    <p>@content</p>
 }
