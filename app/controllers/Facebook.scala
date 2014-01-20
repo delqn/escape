@@ -129,18 +129,75 @@ object Facebook extends Controller {
           (accessToken, expires) =>
             if(accessToken == null) {
               Logger.warn(s"listFacebookFriends2 got a $accessToken accessToken; " +
-              s"Redirecting to $facebookFriendsRedirect")
+                s"Redirecting to $facebookFriendsRedirect")
               Redirect(facebookFriendsRedirect)
             } else {
-            val facebookClient = new DefaultFacebookClient(accessToken)
-            val myFriends = facebookClient.fetchConnection("me/friends", classOf[com.restfb.types.User]).getData
-            val users = (for(x <- User.findAll()) yield x.facebookid.get).toSet
-            val activeFriends = myFriends.filter(friend => users.contains(friend.getId.toLong)).toSeq
-            Ok(views.html.listFriends(null, activeFriends))
+              val facebookClient = new DefaultFacebookClient(accessToken)
+              val myFriends = facebookClient.fetchConnection("me/friends", classOf[com.restfb.types.User]).getData
+              val users = (for(x <- User.findAll()) yield x.facebookid.get).toSet
+              val activeFriends = myFriends.filter(friend => users.contains(friend.getId.toLong)).toSeq
+              Ok(views.html.listFriends(null, activeFriends))
             }
         }
       }.getOrElse {
         Redirect(controllers.routes.Application.login)
       }
   }
+
+  val facebookCheckinsRedirect = redirectUrl(controllers.routes.Facebook.listMyCheckins2(""))
+
+  def listMyCheckins = Action {
+    Redirect(facebookCheckinsRedirect)
+  }
+
+  def listMyCheckins2(code: String) = Action {
+    implicit request =>
+      request.session.get("connected").map { email =>
+        val user = User(email)
+        doWithAccessToken(code, facebookCheckinsRedirect) {
+          (accessToken, expires) =>
+            if(accessToken == null) {
+              Logger.warn(s"listMyCheckins2 got a $accessToken accessToken; " +
+                s"Redirecting to $facebookCheckinsRedirect")
+              Redirect(facebookCheckinsRedirect)
+            } else {
+              val facebookClient = new DefaultFacebookClient(accessToken)
+              val fbid = user.facebookid.get
+              val myCheckins = facebookClient.fetchConnection(s"$fbid/checkins", classOf[com.restfb.types.Checkin]).getData
+              Ok(views.html.listMyCheckins(user, myCheckins))
+            }
+        }
+      }.getOrElse {
+        Redirect(controllers.routes.Application.login)
+      }
+  }
+
+  val facebookPhotosRedirect = redirectUrl(controllers.routes.Facebook.listMyPhotos2(""))
+
+  def listMyPhotos = Action {
+    Redirect(facebookPhotosRedirect)
+  }
+
+  def listMyPhotos2(code: String) = Action {
+    implicit request =>
+      request.session.get("connected").map { email =>
+        val user = User(email)
+        doWithAccessToken(code, facebookPhotosRedirect) {
+          (accessToken, expires) =>
+            if(accessToken == null) {
+              Logger.warn(s"listMyPhotos2 got a $accessToken accessToken; " +
+                s"Redirecting to $facebookPhotosRedirect")
+              Redirect(facebookPhotosRedirect)
+            } else {
+              val facebookClient = new DefaultFacebookClient(accessToken)
+              val fbid = user.facebookid.get
+              val myPhotos = facebookClient.fetchConnection(s"$fbid/photos", classOf[com.restfb.types.Photo]).getData
+              Ok(views.html.listMyPhotos(user, myPhotos))
+            }
+        }
+      }.getOrElse {
+        Redirect(controllers.routes.Application.login)
+      }
+  }
+
 }

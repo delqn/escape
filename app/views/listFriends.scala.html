@@ -4,21 +4,21 @@
 <div id="friends_container">
     @if(!friends.isEmpty) {
     <table>
-		@friends.map { friend =>
+        @friends.map { friend =>
         <tr>
-                <a class="unselected" href="http://www.facebook.com/@friend.getId">
-                    <td>
-                        <div class="small_circle" style="background-image: url('http://graph.facebook.com/@friend.getId/picture?type=large'); float: left;"></div>
-                    </td>
-                    <td class="person_name">
-                        @friend.getName
-                    </td>
-                </a>
+            <a class="unselected" href="http://www.facebook.com/@friend.getId">
+                <td>
+                    <div class="small_circle" style="background-image: url('http://graph.facebook.com/@friend.getId/picture?type=large'); float: left;"></div>
+                </td>
+                <td class="person_name">
+                    @friend.getName
+                </td>
+            </a>
         </tr>
-		}
+        }
     </table>
     } else {
-    	<p>None of your friends uses the Escape app.</p>
+    <p>None of your friends uses the Escape app.</p>
     }
 </div>
 }

@@ -1,0 +1,25 @@
+@(user: User, checkins: Seq[com.restfb.types.Checkin])
+
+@home(Some(user), "Your checkins") {
+<div id="checkins_container">
+    @if(!checkins.isEmpty) {
+    <table>
+        @checkins.map { checkin =>
+        <tr>
+            <a class="unselected" href="http://www.facebook.com/@user.facebookid/checkins">
+                <td class="person_name">
+                    @checkin.getPlace.getName
+                </td>
+                <td class="person_name">
+                    @checkin.getPlace.getLocation.getLatitude,
+                    @checkin.getPlace.getLocation.getLongitude
+                </td>
+            </a>
+        </tr>
+        }
+    </table>
+    } else {
+    <p>You have no checkins.</p>
+    }
+</div>
+}

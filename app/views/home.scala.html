@@ -3,24 +3,25 @@
 @main(title) {
     <!--a class="selected" href="@routes.Application.index">Home</a-->
 	@if(user.isDefined) {
-        <div id="menu">
-	  <a class="selected" href="@routes.Application.logout">Logout</a>
-	  <a class="selected" href="@routes.Facebook.listFacebookFriends">List Friends</a>
-        </div>
+      <div id="menu">
+          <a class="selected" href="@routes.Application.logout">Logout</a>
+          <a class="selected" href="@routes.Facebook.listFacebookFriends">Your Friends</a>
+          <a class="selected" href="@routes.Facebook.listMyCheckins">Your Checkins</a>
+          <a class="selected" href="@routes.Facebook.listMyPhotos">Your Photos</a>
+      </div>
     } else {
+      <div class="clear"></div>
       <div id="steps_container">
           <ul>
               <li><div class="number">1.</div><div class="steps">discover where<br/>to escape</div></li>
               <li><div class="number">2.</div><div class="steps">invite people<br/>who matter</div></li>
               <li><div class="number">3.</div><div class="steps">organize a perfect<br/>trip together</div></li>
           </ul>
-          <div class="clear"></div>
       </div>
-      <div id="login_container">
-          <center>
-              <a class="unselected fbloginsprite" href="facebook/login"><div class="fbloginsprite"></div></a>
-          </center>
-      </div>
+      <div class="clear"></div>
+      <center>
+        <a class="unselected fbloginsprite" href="facebook/login"></a>
+      </center>
     }
     <p>@content</p>
 }

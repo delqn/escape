@@ -14,8 +14,15 @@ GET     /facebook/login/            controllers.Facebook.loginWithParams(ref: Op
 #TODO(delyan):POST    /facebook/canvas?*trash     controllers.Facebook.canvasTrash(trash: Option[String])
 POST    /facebook/canvas            controllers.Facebook.canvas
 GET     /facebook/login2            controllers.Facebook.login2(code: String)
+
 GET     /facebook/listFriends       controllers.Facebook.listFacebookFriends
 GET     /facebook/listFriends2      controllers.Facebook.listFacebookFriends2(code: String)
+
+GET     /myCheckins                controllers.Facebook.listMyCheckins
+GET     /myCheckins2               controllers.Facebook.listMyCheckins2(code: String)
+
+GET     /myPhotos                controllers.Facebook.listMyPhotos
+GET     /myPhotos2               controllers.Facebook.listMyPhotos2(code: String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

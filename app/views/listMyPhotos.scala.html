@@ -1,0 +1,24 @@
+@(user: User, photos: Seq[com.restfb.types.Photo])
+
+@home(Some(user), "Your photos") {
+<div id="checkins_container">
+    @if(!photos.isEmpty) {
+    <table>
+        @photos.map { photo =>
+        <tr>
+            <a class="unselected" href="http://www.facebook.com/@user.facebookid/photos">
+                <td class="person_name">
+                    <img src="@photo.getIcon">
+                </td>
+                <td class="person_name">
+                    <img src="@photo.getSource">
+                </td>
+            </a>
+        </tr>
+        }
+    </table>
+    } else {
+    <p>You have no photos.</p>
+    }
+</div>
+}
