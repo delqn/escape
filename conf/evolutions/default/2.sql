@@ -1,0 +1,1 @@
+CREATE INDEX users_fbid on users (facebookid);

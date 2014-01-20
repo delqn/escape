@@ -109,3 +109,9 @@ li{
     padding: 15px 20px 0 50px;
     float: left;
 }
+
+#main_container{
+height: auto;
+width: auto;
+border: 1px solid red;
+}

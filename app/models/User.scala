@@ -6,7 +6,11 @@ import play.api.Play.current
 import org.squeryl.PrimitiveTypeMode._
 import org.squeryl._
 
-case class User(id: Long, email: String, fullname: String, facebookusername: String = null, facebookid: Option[Long] = None) extends KeyedEntity[Long]
+case class User(id: Long,
+                email: String,
+                fullname: String,
+                facebookusername: String = null,
+                facebookid: Option[Long] = None) extends KeyedEntity[Long]
 
 object User {
 
@@ -26,6 +30,7 @@ object User {
   }
 
   def findByFacebookIdQ(facebookId: Long): Query[User] = from(allQ) {
+    //org.squeryl.Session.currentSession.setLogger(s => Console.println(s))
     user => where(user.facebookid === facebookId).select(user)
   }
 

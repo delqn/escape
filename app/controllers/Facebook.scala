@@ -77,6 +77,7 @@ object Facebook extends Controller {
     val resultFuture = WS.url(accessTokenUrl).get().map {
       response => response.body
     }
+    //TODO(delyan): check if "This authorization code has expired"
     val accessTokenBody = Await.result(resultFuture, 5 seconds)
     val regex = new Regex("access_token=(.*)&expires=(.*)")
     accessTokenBody match {
@@ -113,7 +114,8 @@ object Facebook extends Controller {
           (accessToken, expires) =>
             val facebookClient = new DefaultFacebookClient(accessToken)
             val myFriends = facebookClient.fetchConnection("me/friends", classOf[com.restfb.types.User]).getData
-            val activeFriends = myFriends filter (friend => User.findByFacebookId(friend.getId.toLong).isDefined)
+            val users = (for(x <- User.findAll()) yield x.facebookid.get).toSet
+            val activeFriends = myFriends.filter(friend => users.contains(friend.getId.toLong)).toSeq
             Ok(views.html.listFriends(null, activeFriends))
         }
       }.getOrElse {
