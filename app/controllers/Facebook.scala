@@ -3,13 +3,14 @@ package controllers
 import play.api.Logger
 import play.api.Play.current
 import play.api.libs.ws.WS
-import play.api.mvc._;
+import play.api.mvc._
 import models.User
 import scala.util.matching.Regex
 import com.restfb.DefaultFacebookClient
 import scala.collection.JavaConversions._
 import scala.concurrent.Await
 import scala.concurrent.duration._
+import play.api.libs.json.Json
 
 object Facebook extends Controller {
 
@@ -67,18 +68,32 @@ object Facebook extends Controller {
     }
   }
 
-  def doWithAccessToken(code: String, redirectUrl: String)(accessTokenHandler: ((String, String) => Result)): Result = {
-    val accessTokenUrl = "https://graph.facebook.com/oauth/access_token?client_id=" + appId + "&client_secret=" + appSecret + "&code=" + code + "&redirect_uri=" + redirectUrl
+  def doWithAccessToken(
+    code: String, redirectUrl: String)
+    //TODO(delyan): return type?
+    (accessTokenHandler: ((String, String) => Result)): Result = {
 
-    //TODO(delyan): study this
-    //TODO(delyan): where's the body?
-    //WS.url(accessTokenUrl).get().value.get.body
+    val accessTokenUrl = "https://graph.facebook.com/oauth/access_token?" +
+      "client_id=" + appId +
+      "&client_secret=" + appSecret +
+      "&code=" + code +
+      "&redirect_uri=" + redirectUrl
+
     implicit val context = scala.concurrent.ExecutionContext.Implicits.global
     val resultFuture = WS.url(accessTokenUrl).get().map {
-      response => response.body
+      response => (response.status, response.body)
     }
-    //TODO(delyan): check if "This authorization code has expired"
-    val accessTokenBody = Await.result(resultFuture, 5 seconds)
+
+    val accessTokenResponse = Await.result(resultFuture, 5 seconds)
+    val status = accessTokenResponse._1
+    val accessTokenBody = accessTokenResponse._2
+    if(status!=200) {
+      val json = Json.parse(accessTokenBody)
+      var error = (json \ "error" \ "message").asOpt[String].get
+      Logger.warn(s"doWithAccesstoken got an error from Facebook -> " +
+        s"status=$status  error=$error")
+      return accessTokenHandler(null, null)
+    }
     val regex = new Regex("access_token=(.*)&expires=(.*)")
     accessTokenBody match {
       case regex(accessToken, expires) => accessTokenHandler(accessToken, expires)
@@ -112,11 +127,17 @@ object Facebook extends Controller {
         val user = User(email)
         doWithAccessToken(code, facebookFriendsRedirect) {
           (accessToken, expires) =>
+            if(accessToken == null) {
+              Logger.warn(s"listFacebookFriends2 got a $accessToken accessToken; " +
+              s"Redirecting to $facebookFriendsRedirect")
+              Redirect(facebookFriendsRedirect)
+            } else {
             val facebookClient = new DefaultFacebookClient(accessToken)
             val myFriends = facebookClient.fetchConnection("me/friends", classOf[com.restfb.types.User]).getData
             val users = (for(x <- User.findAll()) yield x.facebookid.get).toSet
             val activeFriends = myFriends.filter(friend => users.contains(friend.getId.toLong)).toSeq
             Ok(views.html.listFriends(null, activeFriends))
+            }
         }
       }.getOrElse {
         Redirect(controllers.routes.Application.login)
