@@ -11,7 +11,7 @@
 
         <!-- Optional theme -->
         <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
-
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
         <!-- Latest compiled and minified JavaScript -->
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 
@@ -23,9 +23,6 @@
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")" type="text/css">
         <!-- <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="@routes.Assets.at("stylesheets/mobile.css")" type="text/css" /> -->
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/dumbbell.jpg")">
-        <script src="@routes.Assets.at("javascripts/jquery-1.8.2.min.js")" type="text/javascript"></script>
-        <script src="http://code.jquery.com/jquery-1.8.2.js"></script>
-    	<script src="http://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
     </head>
     <body>
         <div id="nav">
@@ -38,5 +35,8 @@
     	<h1>@title</h1>
     
         @content
+
+
+        <script src="/assets/javascripts/escape.js"></script>
     </body>
 </html>

@@ -7,12 +7,15 @@
         @checkins.map { checkin =>
         <tr>
             <a class="unselected" href="http://www.facebook.com/@user.facebookid/checkins">
+                <td><img src="https://graph.facebook.com/@checkin.getPlace.getId/picture?type=square"</td>
                 <td class="person_name">
                     @checkin.getPlace.getName
                 </td>
                 <td class="person_name">
-                    @checkin.getPlace.getLocation.getLatitude,
-                    @checkin.getPlace.getLocation.getLongitude
+                    <a href="https://maps.google.com/?q=@checkin.getPlace.getLocation.getLatitude,@checkin.getPlace.getLocation.getLongitude">
+                        @checkin.getPlace.getLocation.getLatitude,
+                        @checkin.getPlace.getLocation.getLongitude
+                    </a>
                 </td>
             </a>
         </tr>

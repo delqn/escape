@@ -68,11 +68,15 @@ object Facebook extends Controller {
     }
   }
 
-  def doWithAccessToken(
-    code: String, redirectUrl: String)
+  def doWithAccessToken(code: String,
+                        redirectUrl: String,
+                        currentAccessToken: Option[String] = null,
+                        currentATExpiration: Option[String] = null)
     //TODO(delyan): return type?
     (accessTokenHandler: ((String, String) => Result)): Result = {
-
+    if(currentAccessToken != null && currentAccessToken != None) {
+      return accessTokenHandler(currentAccessToken.get, null)
+    }
     val accessTokenUrl = "https://graph.facebook.com/oauth/access_token?" +
       "client_id=" + appId +
       "&client_secret=" + appSecret +
@@ -87,6 +91,7 @@ object Facebook extends Controller {
     val accessTokenResponse = Await.result(resultFuture, 5 seconds)
     val status = accessTokenResponse._1
     val accessTokenBody = accessTokenResponse._2
+    /*
     if(status!=200) {
       val json = Json.parse(accessTokenBody)
       var error = (json \ "error" \ "message").asOpt[String].get
@@ -94,9 +99,14 @@ object Facebook extends Controller {
         s"status=$status  error=$error")
       return accessTokenHandler(null, null)
     }
+    */
     val regex = new Regex("access_token=(.*)&expires=(.*)")
     accessTokenBody match {
-      case regex(accessToken, expires) => accessTokenHandler(accessToken, expires)
+      case regex(accessToken, expires) => {
+        Console.println(s"accessToken: $accessToken")
+        Console.println(s"expries: $expires")
+        accessTokenHandler(accessToken, expires)
+      }
     }
   }
 
@@ -125,7 +135,9 @@ object Facebook extends Controller {
     implicit request =>
       request.session.get("connected").map { email =>
         val user = User(email)
-        doWithAccessToken(code, facebookFriendsRedirect) {
+        val currentAccessToken = request.session.get("accessToken")
+        val tokenExpiration = request.session.get("tokenExpiration")
+        doWithAccessToken(code, facebookFriendsRedirect, currentAccessToken, tokenExpiration) {
           (accessToken, expires) =>
             if(accessToken == null) {
               Logger.warn(s"listFacebookFriends2 got a $accessToken accessToken; " +
@@ -136,7 +148,8 @@ object Facebook extends Controller {
               val myFriends = facebookClient.fetchConnection("me/friends", classOf[com.restfb.types.User]).getData
               val users = (for(x <- User.findAll()) yield x.facebookid.get).toSet
               val activeFriends = myFriends.filter(friend => users.contains(friend.getId.toLong)).toSeq
-              Ok(views.html.listFriends(null, activeFriends))
+              Ok(views.html.listFriends(null, activeFriends)).withSession(
+                request.session + ("accessToken", accessToken))
             }
         }
       }.getOrElse {
