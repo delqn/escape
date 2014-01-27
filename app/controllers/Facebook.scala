@@ -91,7 +91,7 @@ object Facebook extends Controller {
     val accessTokenResponse = Await.result(resultFuture, 5 seconds)
     val status = accessTokenResponse._1
     val accessTokenBody = accessTokenResponse._2
-    /*
+
     if(status!=200) {
       val json = Json.parse(accessTokenBody)
       var error = (json \ "error" \ "message").asOpt[String].get
@@ -99,7 +99,7 @@ object Facebook extends Controller {
         s"status=$status  error=$error")
       return accessTokenHandler(null, null)
     }
-    */
+
     val regex = new Regex("access_token=(.*)&expires=(.*)")
     accessTokenBody match {
       case regex(accessToken, expires) => {
@@ -204,7 +204,7 @@ object Facebook extends Controller {
             } else {
               val facebookClient = new DefaultFacebookClient(accessToken)
               val fbid = user.facebookid.get
-              val myPhotos = facebookClient.fetchConnection(s"$fbid/photos", classOf[com.restfb.types.Photo]).getData
+              val myPhotos = facebookClient.fetchConnection(s"$fbid/photos/uploaded", classOf[com.restfb.types.Photo]).getData
               Ok(views.html.listMyPhotos(user, myPhotos))
             }
         }
