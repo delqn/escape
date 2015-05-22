@@ -5,6 +5,10 @@
 <html>
     <head>
         <title>@title</title>
+        <script src="http://fb.me/react-0.9.0.js"></script>
+        <script src="http://fb.me/JSXTransformer-0.9.0.js"></script>
+        <script src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/showdown/0.3.1/showdown.min.js"></script>
 
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
@@ -33,10 +37,8 @@
             <div class="top_bar_item">Search</div>
         </div>
     	<h1>@title</h1>
-    
+        <div id="content"></div>
+        <script type="text/jsx" src="/assets/javascripts/escape.js"></script>
         @content
-
-
-        <script src="/assets/javascripts/escape.js"></script>
     </body>
 </html>

@@ -204,7 +204,7 @@ object Facebook extends Controller {
             } else {
               val facebookClient = new DefaultFacebookClient(accessToken)
               val fbid = user.facebookid.get
-              val myPhotos = facebookClient.fetchConnection(s"$fbid/photos/uploaded", classOf[com.restfb.types.Photo]).getData
+              val myPhotos = facebookClient.fetchConnection(s"$fbid/photos/uploaded?limit=999", classOf[com.restfb.types.Photo]).getData
               Ok(views.html.listMyPhotos(user, myPhotos))
             }
         }
